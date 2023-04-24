@@ -63,7 +63,7 @@ const deleteUser = (req: Request, res: Response) => {
 
   usuarios.splice(index, 1);
 
-  res.json({ message: "Usuário deletado com sucesso!" });
+  res.status(200).json({ message: "Usuário deletado com sucesso!" });
 };
 
 const loginUser = (req: Request, res: Response) => {
@@ -81,7 +81,7 @@ const loginUser = (req: Request, res: Response) => {
     return res.status(401).json({ message: "Credenciais inválidas" });
   }
 
-  res.json({ message: "Login realizado com sucesso!" });
+  res.status(201).json({ message: "Login realizado com sucesso!", usuario: usuario });
 };
 
 const listUsers = (_: Request, res: Response) => {
@@ -97,7 +97,7 @@ export const listUserById = (req: Request, res: Response) => {
    return res.status(404).json({ message: "Usuário não encontrado" });
  }
 
- res.json(usuario);
+ res.status(200).json(usuario);
 };
 
 export const UsuariosController = {
