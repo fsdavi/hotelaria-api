@@ -64,8 +64,8 @@ const deleteOcupacao = (req: Request, res: Response) => {
 };
 
 const getAllOcupacoes = (_: Request, res: Response) => {
- let ocupacoesConfirmadas = ocupacoesMock.filter((ocupacao) => ocupacao.codConfirmacao === 0)
- let ocupacoesPendentes = ocupacoesMock.filter((ocupacao) => ocupacao.codConfirmacao === 1)
+ let ocupacoesConfirmadas = ocupacoesMock.filter((ocupacao) => ocupacao.codConfirmacao === 1)
+ let ocupacoesPendentes = ocupacoesMock.filter((ocupacao) => ocupacao.codConfirmacao === 0)
 
  res.status(200).json({
    message: "Ocupações encontradas com sucesso",

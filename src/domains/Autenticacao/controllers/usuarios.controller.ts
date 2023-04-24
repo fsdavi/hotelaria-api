@@ -11,7 +11,7 @@ const usuarios: Usuario[] = [
   password: 'master',
   cpf: '000.000.000-00',
   telefone: '(00) 00000-0000',
-  endereco: [],
+  idEndereco: [],
   type: 2
  }
 ];
@@ -19,7 +19,7 @@ const usuarios: Usuario[] = [
 const SALT_ROUNDS = 10;
 
 const createUser = (req: Request, res: Response) => {
-  const { nome, email, password, cpf, telefone, endereco, type } = req.body;
+  const { nome, email, password, cpf, telefone, idEndereco, type } = req.body;
 
   const hashedPassword = hashSync(password, SALT_ROUNDS);
   const id = uuid();
@@ -37,7 +37,7 @@ const createUser = (req: Request, res: Response) => {
     password: hashedPassword,
     cpf,
     telefone,
-    endereco,
+    idEndereco,
     type: type ?? 1
   };
 

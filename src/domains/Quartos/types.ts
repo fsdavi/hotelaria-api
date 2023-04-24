@@ -11,16 +11,20 @@ export const enum Status {
  indisponivel
 }
 
+export interface TipoQuarto {
+ nome: string,
+ descricao: string,
+ capacidade: number,
+ camaCasal: number,
+ camaSolteiro: number,
+ diaria: number,
+}
+
 export interface Quarto {
  id: number;
- nome: string;
- descricao: string;
- capacidade: number;
- camaCasal: number;
- camaSolteiro: number;
- diaria: number;
  status: Status;
  numero: number;
  imageName: string;
  avarias?: Avaria[];
+ idTipoQuarto: TipoQuarto;
 }

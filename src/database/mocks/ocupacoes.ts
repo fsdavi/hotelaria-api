@@ -19,7 +19,7 @@ export const OcupacoesMock: Ocupacao[] = [
        telefone: "+558198121289",
        password: "loremipsun#11",
        type: 1,
-       endereco: [{
+       idEndereco: [{
         logradouro: "Rua Lorem Ipsum",
         bairro: "Lorem Ipsum",
         cidade: "Lorem Ipsum",
@@ -46,7 +46,7 @@ export const OcupacoesMock: Ocupacao[] = [
        telefone: "+5581987654321",
        password: "ipsumdolor#22",
        type: 1,
-       endereco: [{
+       idEndereco: [{
         logradouro: "Rua Lorem Ipsum",
         bairro: "Lorem Ipsum",
         cidade: "Lorem Ipsum",
@@ -73,7 +73,7 @@ export const OcupacoesMock: Ocupacao[] = [
        telefone: "+5581976543210",
        password: "dolorsitamet#33",
        type: 1,
-       endereco: [{
+       idEndereco: [{
         logradouro: "Rua Lorem Ipsum",
         bairro: "Lorem Ipsum",
         cidade: "Lorem Ipsum",
