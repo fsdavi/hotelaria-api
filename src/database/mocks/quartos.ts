@@ -34,7 +34,7 @@ const quartosMock: Quarto[] = [
  {
   id: 3,
   status: Status.disponivel,
-  numero: 102,
+  numero: 103,
   imageName: '3.png',
   idTipoQuarto: {
    nome: "Suíte acabaxi",
@@ -49,7 +49,7 @@ const quartosMock: Quarto[] = [
 {
  id: 4,
  status: Status.ocupado,
- numero: 102,
+ numero: 104,
  imageName: '4.png',
  idTipoQuarto: {
   nome: "Solteiro",
