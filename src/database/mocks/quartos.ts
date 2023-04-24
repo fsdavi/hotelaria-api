@@ -2,7 +2,7 @@ import { Quarto, Status } from 'domains/Quartos/types'
 
 const quartosMock: Quarto[] = [
  {
-   id: 1,
+   id: '1',
    status: Status.disponivel,
    numero: 101,
    imageName: '1.png',
@@ -17,7 +17,7 @@ const quartosMock: Quarto[] = [
    avarias: []
  },
  {
-   id: 2,
+   id: '2',
    status: Status.disponivel,
    numero: 102,
    imageName: '2.png',
@@ -32,7 +32,7 @@ const quartosMock: Quarto[] = [
    avarias: []
  },
  {
-  id: 3,
+  id: '3',
   status: Status.disponivel,
   numero: 103,
   imageName: '3.png',
@@ -47,7 +47,7 @@ const quartosMock: Quarto[] = [
   avarias: []
 },
 {
- id: 4,
+ id: '4',
  status: Status.ocupado,
  numero: 104,
  imageName: '4.png',
@@ -62,7 +62,7 @@ const quartosMock: Quarto[] = [
  avarias: []
 },
 {
- id: 5,
+ id: '5',
  status: Status.disponivel,
  numero: 108,
  imageName: '5.png',
@@ -77,7 +77,7 @@ const quartosMock: Quarto[] = [
  avarias: []
 },
 {
- id: 6,
+ id: '6',
  status: Status.disponivel,
  numero: 1066,
  imageName: '6.png',
@@ -92,7 +92,7 @@ const quartosMock: Quarto[] = [
  avarias: []
 },
 {
- id: 7,
+ id: '7',
  status: Status.aguardando_limpeza,
  numero: 132,
  imageName: '7.png',

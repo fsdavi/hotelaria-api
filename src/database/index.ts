@@ -22,3 +22,7 @@ sequelize
   .authenticate()
   .then(() => console.log('Conexão estabelecida com o banco de dados.'))
   .catch((err: any) => console.error('Erro ao conectar com o banco de dados:', err))
+
+sequelize.sync({ force: false }).then(() => {
+  console.log('Todas as models foram sincronizadas com o banco de dados.');
+});

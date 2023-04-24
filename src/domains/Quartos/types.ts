@@ -5,10 +5,10 @@ export interface Avaria {
 }
 
 export const enum Status {
- disponivel,
- ocupado,
- aguardando_limpeza,
- indisponivel
+ disponivel = 1,
+ ocupado = 2,
+ aguardando_limpeza = 3,
+ indisponivel = 4
 }
 
 export interface TipoQuarto {
@@ -21,7 +21,7 @@ export interface TipoQuarto {
 }
 
 export interface Quarto {
- id: number;
+ id: string;
  status: Status;
  numero: number;
  imageName: string;

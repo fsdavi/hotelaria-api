@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { v4 as uuid } from "uuid";
 import { Usuario } from "../types";
 import { hashSync, compareSync } from "bcrypt";
+import { sequelize } from "../../../database";
+import { UsuarioModel } from "../models/user.model";
 
 const usuarios: Usuario[] = [
  {
@@ -18,102 +20,132 @@ const usuarios: Usuario[] = [
 
 const SALT_ROUNDS = 10;
 
-const createUser = (req: Request, res: Response) => {
-  const { nome, email, password, cpf, telefone, idEndereco, type } = req.body;
+const createUser = async (req: Request, res: Response) => {
+ const { nome, email, password, cpf, telefone, idEndereco, type } = req.body;
 
-  const hashedPassword = hashSync(password, SALT_ROUNDS);
-  const id = uuid();
+ const hashedPassword = hashSync(password, SALT_ROUNDS);
+ const id = uuid();
 
-  const usuarioExistente = usuarios.find((usuario) => usuario.cpf === cpf);
+ try {
+   const usuarioExistente = await UsuarioModel.findOne({ where: { cpf: cpf } });
 
-  if(usuarioExistente) {
-   return res.status(400).json({ message: `Já existe um usuário com o CPF ${cpf}`})
-  }
-
-  const usuario: Usuario = {
-    id,
-    nome,
-    email,
-    password: hashedPassword,
-    cpf,
-    telefone,
-    idEndereco,
-    type: type ?? 1
-  };
-
-  usuarios.push(usuario);
-
-  return res.status(201).json(usuario);
-};
-
-const updateUser = (req: Request, res: Response) => {
-  const { id } = req.params;
-
-  const usuarioIndex = usuarios.findIndex((usuario) => usuario.id === id);
-
-  if (usuarioIndex === -1) {
-    return res.status(404).json({ message: "Usuário não encontrado" });
-  } else {
-   const usuarioAtualizado: Usuario = {
-      ...usuarios[usuarioIndex],
-      ...req.body
+   if (usuarioExistente) {
+     return res
+       .status(400)
+       .json({ message: `Já existe um usuário com o CPF ${cpf}` });
    }
 
-   usuarios[usuarioIndex] = usuarioAtualizado;
+   const novoUsuario = await UsuarioModel.create({
+     id,
+     nome,
+     email,
+     password: hashedPassword,
+     cpf,
+     telefone,
+     idEndereco,
+     type: type ?? 1,
+   });
 
-   res.status(200).json({
-    message: "Usuário atualizado com sucesso",
-    user: usuarioAtualizado,
-  });
+   return res.status(201).json(novoUsuario);
+ } catch (err) {
+   console.error("Erro ao criar usuário:", err);
+   return res.status(500).json({ message: "Erro interno do servidor" });
+ }
+};
+
+const updateUser = async (req: Request, res: Response) => {
+ const { id } = req.params;
+
+ try {
+   const usuario = await UsuarioModel.findByPk(`${id}`);
+
+   if (!usuario) {
+     return res.status(404).json({ message: "Usuário não encontrado" });
+   }
+
+   const usuarioAtualizado = await usuario.update(req.body);
+
+   return res.status(200).json({
+     message: "Usuário atualizado com sucesso",
+     user: usuarioAtualizado,
+   });
+ } catch (err) {
+   console.error("Erro ao atualizar usuário:", err);
+   return res.status(500).json({ message: "Erro interno do servidor" });
+ }
+};
+
+const deleteUser = async (req: Request, res: Response) => {
+ const { id } = req.params;
+
+ try {
+   const usuario = await UsuarioModel.findByPk(id);
+
+   if (!usuario) {
+     return res.status(404).json({ message: "Usuário não encontrado" });
+   }
+
+   await usuario.destroy();
+
+   return res.status(200).json({ message: "Usuário deletado com sucesso!" });
+ } catch (err) {
+   console.error("Erro ao deletar usuário:", err);
+   return res.status(500).json({ message: "Erro interno do servidor" });
+ }
+};
+
+const loginUser = async (req: Request, res: Response) => {
+ const { email, password } = req.body;
+
+ try {
+   const usuario = await UsuarioModel.findOne({ where: { email: email } });
+
+   if (!usuario) {
+     return res.status(401).json({ message: "Credenciais inválidas" });
+   }
+
+   const passwordInvalido = !compareSync(password, usuario.password);
+
+   if (passwordInvalido) {
+     return res.status(401).json({ message: "Credenciais inválidas" });
+   }
+
+   return res
+     .status(200)
+     .json({ message: "Login realizado com sucesso!", usuario: usuario });
+ } catch (err) {
+   console.error("Erro ao realizar login:", err);
+   return res.status(500).json({ message: "Erro interno do servidor" });
   }
 };
 
-const deleteUser = (req: Request, res: Response) => {
-  const { id } = req.params;
+const listUsers = async (_: Request, res: Response) => {
+ try {
+   const usuarios = await UsuarioModel.findAll();
+   return res.status(200).json(usuarios);
+ } catch (err) {
+   console.error(err);
+   return res.status(500).json({ message: "Erro ao buscar usuários" });
+ }
+};
 
-  const index = usuarios.findIndex((usuario) => usuario.id === id);
+export const listUserById = async (req: Request, res: Response) => {
+ const { id } = req.params;
 
-  if (index === -1) {
+ try {
+  const usuario = await UsuarioModel.findByPk(`${id}`);
+
+  if (!usuario) {
     return res.status(404).json({ message: "Usuário não encontrado" });
   }
 
-  usuarios.splice(index, 1);
-
-  res.status(200).json({ message: "Usuário deletado com sucesso!" });
-};
-
-const loginUser = (req: Request, res: Response) => {
-  const { email, password } = req.body;
-
-  const usuario = usuarios.find((usuario) => usuario.email === email);
-
-  if (!usuario) {
-    return res.status(401).json({ message: "Credenciais Invalidas" });
-  }
-
-  const passwordInvalido = compareSync(password, usuario.password);
-
-  if (!passwordInvalido) {
-    return res.status(401).json({ message: "Credenciais inválidas" });
-  }
-
-  res.status(201).json({ message: "Login realizado com sucesso!", usuario: usuario });
-};
-
-const listUsers = (_: Request, res: Response) => {
- res.status(200).json(usuarios);
-};
-
-export const listUserById = (req: Request, res: Response) => {
- const { id } = req.params;
-
- const usuario = usuarios.find((usuario) => usuario.id === id);
-
- if (!usuario) {
-   return res.status(404).json({ message: "Usuário não encontrado" });
- }
-
- res.status(200).json(usuario);
+  return res.status(200).json({
+    user: usuario,
+  });
+} catch (err) {
+  console.error("Erro ao buscar usuário:", err);
+  return res.status(500).json({ message: "Erro interno do servidor" });
+}
 };
 
 export const UsuariosController = {

@@ -1,73 +1,50 @@
-// import { Model, DataTypes } from "sequelize";
-// import { sequelize } from "../database";
+import { Model, DataTypes } from "sequelize";
+import { sequelize } from "../../../database";
+import { Quarto, TipoQuarto, Avaria } from '../types'
 
-// interface RoomAttributes {
-//   id: number;
-//   name: string;
-//   price: number;
-//   capacity: number;
-// }
+class QuartoModel extends Model<Quarto> implements Quarto {
+ public id!: string;
+ public status!: number;
+ public numero!: number;
+ public imageName!: string;
+ public avarias!: Avaria[];
+ public idTipoQuarto!: TipoQuarto;
+}
 
-// class Room extends Model<RoomAttributes> implements RoomAttributes {
-//   public id!: number;
-//   public name!: string;
-//   public price!: number;
-//   public capacity!: number;
+QuartoModel.init(
+ {
+  id: {
+    type: DataTypes.STRING,
+    primaryKey: true,
+    allowNull: false,
+  },
+  status: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  numero: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  imageName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  avarias: {
+    type: DataTypes.JSONB,
+    allowNull: true,
+  },
+  idTipoQuarto: {
+    type: DataTypes.JSON,
+    allowNull: false,
+  },
+},
+ {
+   sequelize,
+   tableName: 'quartos',
+   timestamps: true,
+   underscored: true,
+ }
+);
 
-//   // Métodos "static" não podem ser declarados no Model, então é preciso definir separadamente
-//   public static async findAllRooms(): Promise<Room[]> {
-//     return Room.findAll();
-//   }
-
-//   public static async findRoomById(id: number): Promise<Room | null> {
-//     return Room.findByPk(id);
-//   }
-
-//   public static async createRoom(room: RoomAttributes): Promise<Room> {
-//     return Room.create(room);
-//   }
-
-//   public static async updateRoomById(
-//     id: number,
-//     room: RoomAttributes
-//   ): Promise<[number, Room[]]> {
-//     return Room.update(room, {
-//       where: { id },
-//       room
-//     });
-//   }
-
-//   public static async deleteRoomById(id: number): Promise<number> {
-//     return Room.destroy({
-//       where: { id },
-//     });
-//   }
-// }
-
-// Room.init(
-//   {
-//     id: {
-//       type: DataTypes.INTEGER,
-//       autoIncrement: true,
-//       primaryKey: true,
-//     },
-//     name: {
-//       type: DataTypes.STRING,
-//       allowNull: false,
-//     },
-//     price: {
-//       type: DataTypes.FLOAT,
-//       allowNull: false,
-//     },
-//     capacity: {
-//       type: DataTypes.INTEGER,
-//       allowNull: false,
-//     },
-//   },
-//   {
-//     tableName: "rooms",
-//     sequelize,
-//   }
-// );
-
-// export default Room;
+export { QuartoModel };

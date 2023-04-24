@@ -1,25 +1,38 @@
 import { Request, Response } from "express";
 import { Quarto } from "../types";
 import QuartosMock from "../../../database/mocks/quartos";
+import { QuartoModel } from '../models/quartos.model'
+
+import { v4 as uuid } from "uuid";
 import path from 'path'
+import fs from 'fs';
 
 let quartosMock = QuartosMock
 
-const fs = require('fs');
+const createRoom = async (req: Request, res: Response) => {
+ const id = uuid();
 
-const createRoom = (req: Request, res: Response) => {
-  const novoQuarto: Quarto = {
-    id: quartosMock.length + 1,
-    ...req.body
-  };
+ try {
+   const novoQuarto: Quarto = {
+    id,
+     ...req.body
+   };
 
-  quartosMock.push(novoQuarto);
+   const quartoCriado = await QuartoModel.create(novoQuarto);
 
-  res.status(201).json({
-    message: "Quarto criado com sucesso",
-    quarto: novoQuarto,
-  });
+   res.status(201).json({
+     message: "Quarto criado com sucesso",
+     quarto: quartoCriado,
+   });
+ } catch (error: any) {
+   console.error(error);
+   res.status(500).json({
+     message: "Erro ao criar quarto",
+     error: error.message,
+   });
+ }
 };
+
 
 const getAllRooms = (_: Request, res: Response) => {
   res.status(200).json({
@@ -29,7 +42,7 @@ const getAllRooms = (_: Request, res: Response) => {
 };
 
 const getRoomById = (req: Request, res: Response) => {
-  const quartoId = Number(req.params.id);
+  const quartoId = req.params.id;
   const quarto = quartosMock.find((quarto) => quarto.id === quartoId);
 
   if (!quarto) {
@@ -45,7 +58,7 @@ const getRoomById = (req: Request, res: Response) => {
 };
 
 const updateRoom = (req: Request, res: Response) => {
-  const quartoId = Number(req.params.id);
+  const quartoId = req.params.id;
 
   const quartoIndex = quartosMock.findIndex((quarto) => quarto.id === quartoId);
 
@@ -69,7 +82,7 @@ const updateRoom = (req: Request, res: Response) => {
 };
 
 const deleteRoom = (req: Request, res: Response) => {
-  const quartoId = Number(req.params.id);
+  const quartoId = req.params.id;
 
   const quartoIndex = quartosMock.findIndex((quarto) => quarto.id === quartoId);
 
