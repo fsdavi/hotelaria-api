@@ -11,7 +11,6 @@ const usuarios: Usuario[] = [
   password: 'master',
   cpf: '000.000.000-00',
   telefone: '(00) 00000-0000',
-  nrIdentificacao: 0,
   endereco: [],
   type: 2
  }
@@ -39,7 +38,6 @@ const createUser = (req: Request, res: Response) => {
     cpf,
     telefone,
     endereco,
-    nrIdentificacao: usuarios.length + 1,
     type: type ?? 1
   };
 

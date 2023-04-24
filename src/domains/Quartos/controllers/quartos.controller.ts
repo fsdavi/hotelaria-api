@@ -1,41 +1,19 @@
 import { Request, Response } from "express";
-import { Quarto, Status } from "../types";
+import { Quarto } from "../types";
+import QuartosMock from "../../../database/mocks/quartos";
+import path from 'path'
 
-let quartos: Quarto[] = [
-  {
-    id: 1,
-    nome: "Quarto 1",
-    descricao: "Quarto 1",
-    capacidade: 2,
-    camaCasal: 0,
-    camaSolteiro: 2,
-    status: Status.disponivel,
-    numero: 101,
-    diaria: 200,
-    avarias: []
-  },
-  {
-    id: 2,
-    nome: "Quarto 2",
-    descricao: "Quarto 2",
-    capacidade: 2,
-    camaCasal: 1,
-    camaSolteiro: 0,
-    status: Status.disponivel,
-    numero: 102,
-    diaria: 300,
-    avarias: []
-  },
-];
+let quartosMock = QuartosMock
+
+const fs = require('fs');
 
 const createRoom = (req: Request, res: Response) => {
-
   const novoQuarto: Quarto = {
-    id: quartos.length + 1,
+    id: quartosMock.length + 1,
     ...req.body
   };
 
-  quartos.push(novoQuarto);
+  quartosMock.push(novoQuarto);
 
   res.status(201).json({
     message: "Quarto criado com sucesso",
@@ -46,13 +24,13 @@ const createRoom = (req: Request, res: Response) => {
 const getAllRooms = (_: Request, res: Response) => {
   res.status(200).json({
     message: "Quartos encontrados com sucesso",
-    quartos: quartos,
+    quartos: quartosMock,
   });
 };
 
 const getRoomById = (req: Request, res: Response) => {
   const quartoId = Number(req.params.id);
-  const quarto = quartos.find((room) => room.id === quartoId);
+  const quarto = quartosMock.find((quarto) => quarto.id === quartoId);
 
   if (!quarto) {
     res.status(404).json({
@@ -69,7 +47,7 @@ const getRoomById = (req: Request, res: Response) => {
 const updateRoom = (req: Request, res: Response) => {
   const quartoId = Number(req.params.id);
 
-  const quartoIndex = quartos.findIndex((quarto) => quarto.id === quartoId);
+  const quartoIndex = quartosMock.findIndex((quarto) => quarto.id === quartoId);
 
   if (quartoIndex === -1) {
     res.status(404).json({
@@ -77,11 +55,11 @@ const updateRoom = (req: Request, res: Response) => {
     });
   } else {
     const quartoAtualizado: Quarto = {
-      ...quartos[quartoIndex],
+      ...quartosMock[quartoIndex],
      ...req.body
     };
 
-    quartos[quartoIndex] = quartoAtualizado;
+    quartosMock[quartoIndex] = quartoAtualizado;
 
     res.status(200).json({
       message: "Quarto atualizado com sucesso",
@@ -93,16 +71,16 @@ const updateRoom = (req: Request, res: Response) => {
 const deleteRoom = (req: Request, res: Response) => {
   const quartoId = Number(req.params.id);
 
-  const quartoIndex = quartos.findIndex((quarto) => quarto.id === quartoId);
+  const quartoIndex = quartosMock.findIndex((quarto) => quarto.id === quartoId);
 
   if (quartoIndex === -1) {
     res.status(404).json({
       message: "Quarto não encontrado",
     });
   } else {
-    const quartoDeletado = quartos[quartoIndex];
+    const quartoDeletado = quartosMock[quartoIndex];
 
-    quartos.splice(quartoIndex, 1);
+    quartosMock.splice(quartoIndex, 1);
 
     res.status(200).json({
       message: "Quarto excluído com sucesso",
@@ -111,10 +89,25 @@ const deleteRoom = (req: Request, res: Response) => {
   }
 };
 
+const getRoomImage = (req: Request, res: Response) => {
+ const imageName = req.params.imageName;
+ const imagePath = path.join(process.cwd(), 'src/database/images/quartos', imageName);
+ const buffer = fs.readFileSync(imagePath);
+ const imageBase64 = buffer.toString('base64');
+ // Verifique se o arquivo existe
+ if (imageBase64) {
+   // Envie o caminho completo da imagem como resposta JSON
+   res.json({ image: imageBase64 });
+ } else {
+   res.status(404).send({message: 'Imagem não encontrada', path: imagePath});
+ }
+}
+
 export const QuartosController = {
   createRoom,
   getAllRooms,
   getRoomById,
   updateRoom,
   deleteRoom,
+  getRoomImage
 };

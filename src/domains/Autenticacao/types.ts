@@ -19,7 +19,6 @@ export interface Usuario {
  password: string;
  cpf: string;
  telefone: string;
- nrIdentificacao: number;
  endereco: Endereco[];
  type: UsuariosTypes;
 }

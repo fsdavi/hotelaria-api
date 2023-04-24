@@ -21,5 +21,6 @@ export interface Quarto {
  diaria: number;
  status: Status;
  numero: number;
+ imageName: string;
  avarias?: Avaria[];
 }

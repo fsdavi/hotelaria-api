@@ -1,5 +1,5 @@
 import express from 'express';
-import {QuartosController} from './controllers/quartos.controller';
+import { QuartosController } from './controllers/quartos.controller';
 
 const router = express.Router();
 
@@ -17,5 +17,8 @@ router.put('/rooms/:id', QuartosController.updateRoom);
 
 // Rota para excluir um quarto
 router.delete('/rooms/:id', QuartosController.deleteRoom);
+
+// Rota para obter imagens dos quartos
+router.get('/rooms/images/:imageName', QuartosController.getRoomImage)
 
 export default router;
