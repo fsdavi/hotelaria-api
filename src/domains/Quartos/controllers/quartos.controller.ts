@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Quarto } from "../types";
+import { Quarto, Status } from "../types";
 
 let quartos: Quarto[] = [
   {
@@ -9,7 +9,7 @@ let quartos: Quarto[] = [
     capacidade: 2,
     camaCasal: 0,
     camaSolteiro: 2,
-    disponivel: true,
+    status: Status.disponivel,
     numero: 101,
     diaria: 200,
     avarias: []
@@ -21,7 +21,7 @@ let quartos: Quarto[] = [
     capacidade: 2,
     camaCasal: 1,
     camaSolteiro: 0,
-    disponivel: true,
+    status: Status.disponivel,
     numero: 102,
     diaria: 300,
     avarias: []

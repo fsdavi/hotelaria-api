@@ -4,6 +4,13 @@ export interface Avaria {
  item: string;
 }
 
+export const enum Status {
+ disponivel,
+ ocupado,
+ aguardando_limpeza,
+ indisponivel
+}
+
 export interface Quarto {
  id: number;
  nome: string;
@@ -12,7 +19,7 @@ export interface Quarto {
  camaCasal: number;
  camaSolteiro: number;
  diaria: number;
- disponivel: boolean;
+ status: Status;
  numero: number;
  avarias?: Avaria[];
 }
