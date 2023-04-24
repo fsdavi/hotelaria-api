@@ -12,6 +12,9 @@ router.get('/auth', UsuariosController.listUsers);
 // Rota para obter um usuário específico
 router.get('/auth/:id', UsuariosController.listUserById);
 
+// Rota para fazer login
+router.post('/auth/login', UsuariosController.loginUser);
+
 // Rota para atualizar um usuário
 router.put('/auth/:id', UsuariosController.updateUser);
 
