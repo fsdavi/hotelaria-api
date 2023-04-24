@@ -3,7 +3,19 @@ import { v4 as uuid } from "uuid";
 import { Usuario } from "../types";
 import { hashSync, compareSync } from "bcrypt";
 
-const usuarios: Usuario[] = [];
+const usuarios: Usuario[] = [
+ {
+  id: '0',
+  nome: 'Master',
+  email: 'master@email.com',
+  password: 'master',
+  cpf: '000.000.000-00',
+  telefone: '(00) 00000-0000',
+  nrIdentificacao: 0,
+  endereco: [],
+  type: 2
+ }
+];
 
 const SALT_ROUNDS = 10;
 
@@ -12,6 +24,12 @@ const createUser = (req: Request, res: Response) => {
 
   const hashedPassword = hashSync(password, SALT_ROUNDS);
   const id = uuid();
+
+  const usuarioExistente = usuarios.find((usuario) => usuario.cpf === cpf);
+
+  if(usuarioExistente) {
+   return res.status(400).json({ message: `Já existe um usuário com o CPF ${cpf}`})
+  }
 
   const usuario: Usuario = {
     id,
@@ -27,7 +45,7 @@ const createUser = (req: Request, res: Response) => {
 
   usuarios.push(usuario);
 
-  res.status(201).json(usuario);
+  return res.status(201).json(usuario);
 };
 
 const updateUser = (req: Request, res: Response) => {
@@ -85,7 +103,7 @@ const loginUser = (req: Request, res: Response) => {
 };
 
 const listUsers = (_: Request, res: Response) => {
- res.json(usuarios);
+ res.status(200).json(usuarios);
 };
 
 export const listUserById = (req: Request, res: Response) => {
