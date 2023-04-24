@@ -1,6 +1,7 @@
 const enum UsuariosTypes {
  funcionario,
- hospede
+ hospede,
+ master
 }
 
 export interface Endereco {
