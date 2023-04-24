@@ -1,3 +1,3 @@
-import roomsRouter  from './rooms.routes';
+import quartosRouter  from '../domains/Quartos/quartos.routes';
 
-export { roomsRouter	}
+export { quartosRouter	}
