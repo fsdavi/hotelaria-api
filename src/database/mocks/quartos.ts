@@ -7,12 +7,12 @@ const quartosMock: Quarto[] = [
    numero: 101,
    imageName: '1.png',
    idTipoQuarto: {
-    nome: "Quarto 1",
-    descricao: "Quarto 1",
+    nome: "Suite presidencial",
+    descricao: "Para noites inesquecíveis",
     capacidade: 2,
-    camaCasal: 0,
-    camaSolteiro: 2,
-    diaria: 200
+    camaCasal: 1,
+    camaSolteiro: 0,
+    diaria: 999
    },
    avarias: []
  },
@@ -22,8 +22,8 @@ const quartosMock: Quarto[] = [
    numero: 102,
    imageName: '2.png',
    idTipoQuarto: {
-    nome: "Quarto 2",
-    descricao: "Quarto 2",
+    nome: "Casal",
+    descricao: "Para um casal",
     capacidade: 2,
     camaCasal: 1,
     camaSolteiro: 0,
@@ -37,12 +37,12 @@ const quartosMock: Quarto[] = [
   numero: 102,
   imageName: '3.png',
   idTipoQuarto: {
-   nome: "Quarto 3",
-   descricao: "Quarto 3",
+   nome: "Suíte acabaxi",
+   descricao: "Para você se sentir no fundo do mar",
    capacidade: 2,
    camaCasal: 1,
    camaSolteiro: 0,
-   diaria: 300,
+   diaria: 700,
   },
   avarias: []
 },
@@ -52,12 +52,12 @@ const quartosMock: Quarto[] = [
  numero: 102,
  imageName: '4.png',
  idTipoQuarto: {
-  nome: "Quarto 4",
-  descricao: "Quarto 4",
-  capacidade: 4,
-  camaCasal: 1,
-  camaSolteiro: 0,
-  diaria: 300,
+  nome: "Solteiro",
+  descricao: "Para uma pessoa",
+  capacidade: 1,
+  camaCasal: 0,
+  camaSolteiro: 1,
+  diaria: 100,
  },
  avarias: []
 },
@@ -67,8 +67,8 @@ const quartosMock: Quarto[] = [
  numero: 108,
  imageName: '5.png',
  idTipoQuarto: {
-  nome: "Quarto 5",
-  descricao: "Quarto 5",
+  nome: "Família",
+  descricao: "Para a família",
   capacidade: 5,
   camaCasal: 1,
   camaSolteiro: 3,
@@ -82,12 +82,12 @@ const quartosMock: Quarto[] = [
  numero: 1066,
  imageName: '6.png',
  idTipoQuarto: {
-  nome: "Quarto 6",
-  descricao: "Quarto 6",
+  nome: "Quarto Aventureiros",
+  descricao: "Para repousar durante as pausas das suas aventuras",
   capacidade: 6,
   camaCasal: 2,
   camaSolteiro: 2,
-  diaria: 888,
+  diaria: 1200,
  },
  avarias: []
 },
@@ -97,12 +97,12 @@ const quartosMock: Quarto[] = [
  numero: 132,
  imageName: '7.png',
  idTipoQuarto: {
-  nome: "Quarto 7",
-  descricao: "Quarto 7",
-  capacidade: 7,
+  nome: "Triplex",
+  descricao: "Estadia VIP",
+  capacidade: 8,
   camaCasal: 3,
-  camaSolteiro: 1,
-  diaria: 1300,
+  camaSolteiro: 2,
+  diaria: 2000,
  },
  avarias: []
 },
